@@ -11,3 +11,4 @@ publish/
 !.env.example
 appsettings.Local.json
 appsettings.Development.local.json
+backend/wwwroot/

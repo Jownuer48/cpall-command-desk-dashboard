@@ -17,20 +17,30 @@ builder.Services.AddSingleton<IDeskStatusProvider, MockDeskStatusProvider>();
 
 var app = builder.Build();
 
-app.UseCors("FrontendDev");
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("FrontendDev");
+}
 
-app.MapGet("/api/health", () => Results.Ok(new
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+var api = app.MapGroup("/api");
+
+api.MapGet("/health", () => Results.Ok(new
 {
     status = "Healthy",
     timestamp = DateTimeOffset.UtcNow
 }));
 
-app.MapGet("/api/desk-status", async (
+api.MapGet("/desk-status", async (
     IDeskStatusProvider provider,
     CancellationToken cancellationToken) =>
 {
     var statuses = await provider.GetDeskStatusesAsync(DateTimeOffset.Now, cancellationToken);
     return Results.Ok(statuses);
 });
+
+app.MapFallbackToFile("index.html");
 
 app.Run();

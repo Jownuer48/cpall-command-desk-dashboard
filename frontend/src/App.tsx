@@ -35,7 +35,7 @@ const statusOptions: StatusFilter[] = [
 const apiBaseUrl =
   import.meta.env.DEV
     ? import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
-    : import.meta.env.VITE_API_BASE_URL || '';
+    : '';
 
 function App() {
   const [desks, setDesks] = useState<DeskStatus[]>([]);
