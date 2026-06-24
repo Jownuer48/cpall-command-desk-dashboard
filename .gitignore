@@ -8,5 +8,6 @@ publish/
 *.user
 .env
 .env.*
+!.env.example
 appsettings.Local.json
 appsettings.Development.local.json
