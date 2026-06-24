@@ -8,13 +8,19 @@ type ComputerLayoutProps = {
 
 export function ComputerLayout({ groups, onSelectDesk }: ComputerLayoutProps) {
   return (
-    <section className="layout-board" aria-label="Computer layout by zone">
+    <section className="layout-board" aria-label="Computer layout">
       {groups.map((group) => (
         <section className="zone-panel" key={group.zone}>
           <div className="zone-heading">
             <div>
-              <h2>{group.zone}</h2>
-              <span>{group.desks.length} computers shown</span>
+              <h2>Desk Layout</h2>
+              <span>A01-A12 overview | {group.desks.length} computers shown</span>
+            </div>
+            <div className="status-legend" aria-label="Status legend">
+              <span className="legend-item available">Available</span>
+              <span className="legend-item booked">Booked</span>
+              <span className="legend-item maintenance">Maintenance</span>
+              <span className="legend-item reserved">Reserved</span>
             </div>
           </div>
 

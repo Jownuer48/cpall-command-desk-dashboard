@@ -6,30 +6,18 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
 {
     private static readonly IReadOnlyList<Seat> Seats =
     [
-        new("CC-01", "Command Center A", "Command-A-01", true),
-        new("CC-02", "Command Center A", "Command-A-02", true),
-        new("CC-03", "Command Center A", "Command-A-03", true),
-        new("CC-04", "Command Center A", "Command-A-04", true),
-        new("CC-05", "Command Center A", "Command-A-05", true),
-        new("CC-06", "Command Center A", "Command-A-06", false),
-        new("CC-07", "Command Center B", "Command-B-01", true),
-        new("CC-08", "Command Center B", "Command-B-02", true),
-        new("CC-09", "Command Center B", "Command-B-03", true),
-        new("CC-10", "Command Center B", "Command-B-04", true),
-        new("CC-11", "Command Center B", "Command-B-05", true),
-        new("CC-12", "Command Center B", "Command-B-06", false),
-        new("CC-13", "Monitoring Zone", "Monitor-01", true),
-        new("CC-14", "Monitoring Zone", "Monitor-02", true),
-        new("CC-15", "Monitoring Zone", "Monitor-03", true),
-        new("CC-16", "Monitoring Zone", "Monitor-04", true),
-        new("CC-17", "Monitoring Zone", "Monitor-05", true),
-        new("CC-18", "Monitoring Zone", "Monitor-06", false),
-        new("CC-19", "Supervisor Zone", "Supervisor-01", true),
-        new("CC-20", "Supervisor Zone", "Supervisor-02", true),
-        new("CC-21", "Supervisor Zone", "Supervisor-03", true),
-        new("CC-22", "Supervisor Zone", "Supervisor-04", true),
-        new("CC-23", "Supervisor Zone", "Supervisor-05", true),
-        new("CC-24", "Supervisor Zone", "Supervisor-06", false)
+        new("A01", "Command Center", "Command-Desk-A01", true),
+        new("A02", "Command Center", "Command-Desk-A02", true),
+        new("A03", "Command Center", "Command-Desk-A03", true),
+        new("A04", "Command Center", "Command-Desk-A04", true),
+        new("A05", "Command Center", "Command-Desk-A05", true),
+        new("A06", "Command Center", "Command-Desk-A06", false),
+        new("A07", "Command Center", "Command-Desk-A07", true),
+        new("A08", "Command Center", "Command-Desk-A08", true),
+        new("A09", "Command Center", "Command-Desk-A09", true),
+        new("A10", "Command Center", "Command-Desk-A10", true),
+        new("A11", "Command Center", "Command-Desk-A11", true),
+        new("A12", "Command Center", "Command-Desk-A12", false)
     ];
 
     public Task<IReadOnlyList<DeskStatusDto>> GetDeskStatusesAsync(
@@ -108,7 +96,7 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
     private static IReadOnlyList<Booking> CreateBookings(DateTimeOffset now) =>
     [
         new(
-            "CC-02",
+            "A01",
             "Command Desk Team",
             "Operations Control",
             now.AddMinutes(-45),
@@ -117,7 +105,7 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
             "Priority store support watch.",
             now.AddMinutes(-12)),
         new(
-            "CC-04",
+            "A04",
             "Operations Lead",
             "Store Support",
             now.AddMinutes(-15),
@@ -126,7 +114,7 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
             "Escalation desk for shift coverage.",
             now.AddMinutes(-8)),
         new(
-            "CC-09",
+            "A08",
             "Network Team",
             "Infrastructure",
             now.AddHours(-1),
@@ -135,7 +123,7 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
             "Monitoring WAN and store network signals.",
             now.AddMinutes(-18)),
         new(
-            "CC-14",
+            "A10",
             "Monitoring Analyst",
             "Monitoring",
             now.AddMinutes(-30),
@@ -144,7 +132,7 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
             "High-volume alert queue coverage.",
             now.AddMinutes(-6)),
         new(
-            "CC-20",
+            "A11",
             "Shift Supervisor",
             "Command Center",
             now.AddMinutes(-20),
@@ -153,7 +141,7 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
             "Supervisor desk assigned for current shift.",
             now.AddMinutes(-4)),
         new(
-            "CC-22",
+            "A12",
             "Business Continuity",
             "Risk Management",
             now.AddHours(2),

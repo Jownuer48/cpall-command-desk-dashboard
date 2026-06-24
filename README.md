@@ -13,7 +13,7 @@ Read-only dashboard for displaying computer desk booking status.
 - `GET /api/health`
 - `GET /api/desk-status`
 
-The mock provider includes seats `CC-01` through `CC-24`, grouped across Command Center A, Command Center B, Monitoring Zone, and Supervisor Zone.
+The mock provider includes 12 seats, `A01` through `A12`, in one Command Center layout.
 
 ## UI Theme
 

@@ -17,12 +17,7 @@ type DeskStatus = {
 
 type StatusFilter = 'All' | DeskStatusValue;
 
-const zoneOrder = [
-  'Command Center A',
-  'Command Center B',
-  'Monitoring Zone',
-  'Supervisor Zone'
-];
+const zoneOrder = ['Command Center'];
 
 const statusOptions: StatusFilter[] = [
   'All',

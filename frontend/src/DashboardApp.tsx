@@ -7,12 +7,7 @@ import { StatusTable } from './components/StatusTable';
 import { SummaryCards } from './components/SummaryCards';
 import type { DeskStatus, StatusFilter, ViewMode } from './types';
 
-const zoneOrder = [
-  'Command Center A',
-  'Command Center B',
-  'Monitoring Zone',
-  'Supervisor Zone'
-];
+const zoneOrder = ['Command Center'];
 
 const apiBaseUrl =
   import.meta.env.DEV

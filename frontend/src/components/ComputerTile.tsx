@@ -16,7 +16,7 @@ export function ComputerTile({ desk, onSelect }: ComputerTileProps) {
     >
       <span className="tile-status-dot" aria-hidden="true" />
       <strong>{desk.seatId}</strong>
-      <span>{desk.status}</span>
+      <span className="tile-status-label">{desk.status}</span>
     </button>
   );
 }
