@@ -9,4 +9,7 @@ public sealed record DeskStatusDto(
     DateTimeOffset? StartTime,
     DateTimeOffset? EndTime,
     string? BookedBy,
-    string? Purpose);
+    string? Department,
+    string? Purpose,
+    string? Note,
+    DateTimeOffset UpdatedAt);

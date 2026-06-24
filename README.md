@@ -15,6 +15,16 @@ Read-only dashboard for displaying computer desk booking status.
 
 The mock provider includes seats `CC-01` through `CC-24`, grouped across Command Center A, Command Center B, Monitoring Zone, and Supervisor Zone.
 
+## UI Theme
+
+The dashboard uses the CPALL logo and CPALL-inspired colors: blue for the primary brand color, red/orange for booked desks, green for available desks, and bright white/light gray dashboard surfaces.
+
+Logo path:
+
+```text
+frontend/public/cpalllogo.png
+```
+
 ## Development mode
 
 Run the backend API at `http://localhost:5000`:

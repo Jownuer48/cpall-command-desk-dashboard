@@ -62,7 +62,10 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
                 null,
                 null,
                 null,
-                null);
+                null,
+                null,
+                "Workstation is under scheduled maintenance.",
+                now.AddHours(-6));
         }
 
         var currentBooking = bookings.FirstOrDefault(booking =>
@@ -81,7 +84,10 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
                 null,
                 null,
                 null,
-                null);
+                null,
+                null,
+                "Ready for command center operations.",
+                now.AddMinutes(-5));
         }
 
         return new DeskStatusDto(
@@ -93,17 +99,68 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
             currentBooking.StartTime,
             currentBooking.EndTime,
             currentBooking.BookedBy,
-            currentBooking.Purpose);
+            currentBooking.Department,
+            currentBooking.Purpose,
+            currentBooking.Note,
+            currentBooking.UpdatedAt);
     }
 
     private static IReadOnlyList<Booking> CreateBookings(DateTimeOffset now) =>
     [
-        new("CC-02", "Command Desk Team", now.AddMinutes(-45), now.AddHours(2), "Incident monitoring"),
-        new("CC-04", "Operations Lead", now.AddMinutes(-15), now.AddHours(1.5), "Store support watch"),
-        new("CC-09", "Network Team", now.AddHours(-1), now.AddMinutes(90), "Network health review"),
-        new("CC-14", "Monitoring Analyst", now.AddMinutes(-30), now.AddHours(3), "Alert triage"),
-        new("CC-20", "Shift Supervisor", now.AddMinutes(-20), now.AddHours(2.5), "Shift command"),
-        new("CC-22", "Business Continuity", now.AddHours(2), now.AddHours(4), "Upcoming readiness review")
+        new(
+            "CC-02",
+            "Command Desk Team",
+            "Operations Control",
+            now.AddMinutes(-45),
+            now.AddHours(2),
+            "Incident monitoring",
+            "Priority store support watch.",
+            now.AddMinutes(-12)),
+        new(
+            "CC-04",
+            "Operations Lead",
+            "Store Support",
+            now.AddMinutes(-15),
+            now.AddHours(1.5),
+            "Store support watch",
+            "Escalation desk for shift coverage.",
+            now.AddMinutes(-8)),
+        new(
+            "CC-09",
+            "Network Team",
+            "Infrastructure",
+            now.AddHours(-1),
+            now.AddMinutes(90),
+            "Network health review",
+            "Monitoring WAN and store network signals.",
+            now.AddMinutes(-18)),
+        new(
+            "CC-14",
+            "Monitoring Analyst",
+            "Monitoring",
+            now.AddMinutes(-30),
+            now.AddHours(3),
+            "Alert triage",
+            "High-volume alert queue coverage.",
+            now.AddMinutes(-6)),
+        new(
+            "CC-20",
+            "Shift Supervisor",
+            "Command Center",
+            now.AddMinutes(-20),
+            now.AddHours(2.5),
+            "Shift command",
+            "Supervisor desk assigned for current shift.",
+            now.AddMinutes(-4)),
+        new(
+            "CC-22",
+            "Business Continuity",
+            "Risk Management",
+            now.AddHours(2),
+            now.AddHours(4),
+            "Upcoming readiness review",
+            "Future booking, currently available.",
+            now.AddMinutes(-22))
     ];
 
     private static int GetSeatNumber(string seatId)
