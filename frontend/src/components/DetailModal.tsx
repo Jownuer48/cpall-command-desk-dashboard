@@ -1,98 +1,99 @@
-import { useEffect } from 'react';
-import type { DeskStatus } from '../types';
-import {
-  displayValue,
-  formatDateTime,
-  formatTime,
-  getStatusClass
-} from '../utils';
-import { StatusPill } from './StatusPill';
+import React, { useEffect, useRef } from 'react';
+import { DeskStatusDto } from '../types';
+import { displayStatus, displayValue, displayZone } from '../utils';
 
-type DetailModalProps = {
-  desk: DeskStatus | null;
+interface DetailModalProps {
+  desk: DeskStatusDto | null;
   onClose: () => void;
+}
+
+function formatDateTime(value?: string | null): string {
+  if (!value) return '—';
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+
+  return date.toLocaleString('th-TH', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+const statusHelper: Record<string, string> = {
+  Available: 'โต๊ะนี้พร้อมใช้งาน',
+  Booked: 'โต๊ะนี้มีผู้จองหรือกำลังใช้งาน',
+  Maintenance: 'โต๊ะนี้อยู่ระหว่างซ่อมบำรุงหรือปิดใช้งาน',
 };
 
-export function DetailModal({ desk, onClose }: DetailModalProps) {
-  useEffect(() => {
-    if (!desk) {
-      return;
-    }
+const DetailModal: React.FC<DetailModalProps> = ({ desk, onClose }) => {
+  const closeRef = useRef<HTMLButtonElement>(null);
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
+  useEffect(() => {
+    if (!desk) return undefined;
+
+    closeRef.current?.focus();
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [desk, onClose]);
 
-  if (!desk) {
-    return null;
-  }
+  if (!desk) return null;
+
+  const rows: [string, string][] = [
+    ['โซน', displayZone(desk.zone)],
+    ['สถานะ', displayStatus(desk.status)],
+    ['ชื่อเครื่อง', displayValue(desk.computerName)],
+    ['ผู้จอง', displayValue(desk.bookedBy)],
+    ['แผนก', displayValue(desk.department)],
+    ['เวลาเริ่ม', formatDateTime(desk.startTime)],
+    ['เวลาสิ้นสุด', formatDateTime(desk.endTime)],
+    ['วัตถุประสงค์', displayValue(desk.purpose)],
+    ['หมายเหตุ', displayValue(desk.note)],
+    ['อัปเดตล่าสุด', formatDateTime(desk.updatedAt)],
+  ];
 
   return (
-    <div className="modal-backdrop" onMouseDown={onClose} role="presentation">
-      <section
-        className="detail-modal"
-        aria-modal="true"
-        role="dialog"
-        aria-labelledby="detail-modal-title"
-        onMouseDown={(event) => event.stopPropagation()}
-      >
-        <div className="modal-header">
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="รายละเอียดโต๊ะ">
+      <div className="modal" onClick={(event) => event.stopPropagation()}>
+        <div className={`modal__hero modal__hero--${desk.status.toLowerCase()}`}>
           <div>
-            <span className="modal-kicker">Desk detail</span>
-            <h2 id="detail-modal-title">{desk.seatId}</h2>
+            <p className="modal__eyebrow">รายละเอียดโต๊ะ</p>
+            <h2 className="modal__title">{desk.seatId}</h2>
+            <p className="modal__subtitle">{statusHelper[desk.status] ?? displayStatus(desk.status)}</p>
           </div>
-          <button
-            className="modal-close"
-            type="button"
-            aria-label="Close desk detail"
-            onClick={onClose}
-          >
-            X
+
+          <span className={`modal__badge modal__badge--${desk.status.toLowerCase()}`}>
+            {displayStatus(desk.status)}
+          </span>
+        </div>
+
+        <div className="modal__body">
+          <dl className="modal__details">
+            {rows.map(([label, val]) => (
+              <React.Fragment key={label}>
+                <dt className="modal__dt">{label}</dt>
+                <dd className="modal__dd">{val}</dd>
+              </React.Fragment>
+            ))}
+          </dl>
+        </div>
+
+        <div className="modal__footer">
+          <span className="modal__readonly">ข้อมูลสำหรับอ่านเท่านั้น</span>
+          <button ref={closeRef} className="modal__close-btn" onClick={onClose} type="button">
+            ปิด
           </button>
         </div>
-
-        <div className={`modal-status-card ${getStatusClass(desk.status)}`}>
-          <div>
-            <span>Status</span>
-            <StatusPill status={desk.status} />
-          </div>
-          <strong>{desk.computerName}</strong>
-        </div>
-
-        <dl className="detail-grid">
-          <DetailItem label="Computer/Desk ID" value={desk.seatId} />
-          <DetailItem label="Zone" value={desk.zone} />
-          <DetailItem label="Booked by" value={displayValue(desk.bookedBy)} />
-          <DetailItem label="Department" value={displayValue(desk.department)} />
-          <DetailItem label="Start time" value={formatTime(desk.startTime)} />
-          <DetailItem label="End time" value={formatTime(desk.endTime)} />
-          <DetailItem label="Note" value={displayValue(desk.note ?? desk.purpose)} wide />
-          <DetailItem label="Updated at" value={formatDateTime(desk.updatedAt)} wide />
-        </dl>
-      </section>
+      </div>
     </div>
   );
-}
+};
 
-function DetailItem({
-  label,
-  value,
-  wide = false
-}: {
-  label: string;
-  value: string;
-  wide?: boolean;
-}) {
-  return (
-    <div className={wide ? 'detail-item wide' : 'detail-item'}>
-      <dt>{label}</dt>
-      <dd>{value}</dd>
-    </div>
-  );
-}
+export default DetailModal;

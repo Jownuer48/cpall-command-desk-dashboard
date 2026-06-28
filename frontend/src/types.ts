@@ -1,8 +1,22 @@
 export type DeskStatusValue =
   | 'Available'
   | 'Booked'
-  | 'Maintenance'
-  | 'Reserved';
+  | 'Maintenance';
+
+export interface DeskStatusDto {
+  seatId: string;
+  zone: string;
+  computerName?: string | null;
+  status: DeskStatusValue;
+  isActive?: boolean;
+  bookedBy?: string | null;
+  department?: string | null;
+  startTime?: string | null;
+  endTime?: string | null;
+  purpose?: string | null;
+  note?: string | null;
+  updatedAt?: string | null;
+}
 
 export type DeskStatus = {
   seatId: string;
@@ -33,5 +47,4 @@ export type DeskCounts = {
   available: number;
   booked: number;
   maintenance: number;
-  reserved: number;
 };

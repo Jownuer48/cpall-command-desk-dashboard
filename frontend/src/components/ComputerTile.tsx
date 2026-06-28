@@ -1,5 +1,5 @@
 import type { DeskStatus } from '../types';
-import { getStatusClass } from '../utils';
+import { displayStatus, getStatusClass } from '../utils';
 
 type ComputerTileProps = {
   desk: DeskStatus;
@@ -7,16 +7,18 @@ type ComputerTileProps = {
 };
 
 export function ComputerTile({ desk, onSelect }: ComputerTileProps) {
+  const label = displayStatus(desk.status);
+
   return (
     <button
       className={`computer-tile ${getStatusClass(desk.status)}`}
       type="button"
       onClick={onSelect}
-      aria-label={`${desk.seatId} ${desk.status}`}
+      aria-label={`โต๊ะ ${desk.seatId} สถานะ ${label}`}
     >
       <span className="tile-status-dot" aria-hidden="true" />
       <strong>{desk.seatId}</strong>
-      <span className="tile-status-label">{desk.status}</span>
+      <span className="tile-status-label">{label}</span>
     </button>
   );
 }

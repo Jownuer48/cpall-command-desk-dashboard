@@ -14,23 +14,23 @@ export function DashboardHeader({
       <div className="brand-block">
         <img className="brand-logo" src="/cpalllogo.png" alt="CPALL" />
         <div>
-          <h1>CPALL Command Center</h1>
-          <p>Computer Desk Status Dashboard</p>
+          <h1>CPALL COMMAND CENTER</h1>
+          <p>แดชบอร์ดสถานะโต๊ะคอมพิวเตอร์</p>
         </div>
       </div>
 
-      <div className="header-status" aria-live="polite">
+      <div className="header-status" aria-live="polite" aria-label="สถานะระบบ">
         <div className="live-state">
           <span className={isRefreshing ? 'live-dot refreshing' : 'live-dot'} />
-          <strong>{isRefreshing ? 'Syncing' : 'Live'}</strong>
+          <strong>{isRefreshing ? 'กำลังซิงก์' : 'แสดงผลสด'}</strong>
         </div>
         <div>
-          <span>Last synced</span>
-          <strong>{lastSynced ? formatDateTime(lastSynced) : 'Waiting'}</strong>
+          <span>ซิงก์ล่าสุด</span>
+          <strong>{lastSynced ? formatDateTime(lastSynced) : 'รอข้อมูล'}</strong>
         </div>
         <div>
-          <span>Auto refresh</span>
-          <strong>Every 10 sec</strong>
+          <span>รีเฟรชอัตโนมัติ</span>
+          <strong>ทุก 10 วินาที</strong>
         </div>
       </div>
     </header>

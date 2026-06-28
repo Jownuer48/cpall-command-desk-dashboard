@@ -13,8 +13,6 @@
   --booked-soft: #fde8e8;
   --maintenance: #b98212;
   --maintenance-soft: #fff4ce;
-  --reserved: #4b5fc7;
-  --reserved-soft: #e9ecff;
   --panel: #ffffff;
   --line: #d9e1e7;
   --muted: #627080;
@@ -320,10 +318,6 @@ select:focus {
   border-color: var(--maintenance);
 }
 
-.status-reserved {
-  border-color: var(--reserved);
-}
-
 .status-pill {
   display: inline-flex;
   justify-content: center;
@@ -348,11 +342,6 @@ select:focus {
 .status-pill.status-maintenance {
   color: var(--maintenance);
   background: var(--maintenance-soft);
-}
-
-.status-pill.status-reserved {
-  color: var(--reserved);
-  background: var(--reserved-soft);
 }
 
 .table-wrap {

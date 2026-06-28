@@ -6,18 +6,18 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
 {
     private static readonly IReadOnlyList<Seat> Seats =
     [
-        new("A01", "Command Center", "Command-Desk-A01", true),
-        new("A02", "Command Center", "Command-Desk-A02", true),
-        new("A03", "Command Center", "Command-Desk-A03", true),
-        new("A04", "Command Center", "Command-Desk-A04", true),
-        new("A05", "Command Center", "Command-Desk-A05", true),
-        new("A06", "Command Center", "Command-Desk-A06", false),
-        new("A07", "Command Center", "Command-Desk-A07", true),
-        new("A08", "Command Center", "Command-Desk-A08", true),
-        new("A09", "Command Center", "Command-Desk-A09", true),
-        new("A10", "Command Center", "Command-Desk-A10", true),
-        new("A11", "Command Center", "Command-Desk-A11", true),
-        new("A12", "Command Center", "Command-Desk-A12", false)
+        new("A01", "Command Center", "โต๊ะบัญชาการ A01", true),
+        new("A02", "Command Center", "โต๊ะบัญชาการ A02", true),
+        new("A03", "Command Center", "โต๊ะบัญชาการ A03", true),
+        new("A04", "Command Center", "โต๊ะบัญชาการ A04", true),
+        new("A05", "Command Center", "โต๊ะบัญชาการ A05", true),
+        new("A06", "Command Center", "โต๊ะบัญชาการ A06", false),
+        new("A07", "Command Center", "โต๊ะบัญชาการ A07", true),
+        new("A08", "Command Center", "โต๊ะบัญชาการ A08", true),
+        new("A09", "Command Center", "โต๊ะบัญชาการ A09", true),
+        new("A10", "Command Center", "โต๊ะบัญชาการ A10", true),
+        new("A11", "Command Center", "โต๊ะบัญชาการ A11", true),
+        new("A12", "Command Center", "โต๊ะบัญชาการ A12", false)
     ];
 
     public Task<IReadOnlyList<DeskStatusDto>> GetDeskStatusesAsync(
@@ -52,7 +52,7 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
                 null,
                 null,
                 null,
-                "Workstation is under scheduled maintenance.",
+                "เครื่องอยู่ระหว่างซ่อมบำรุงตามรอบ",
                 now.AddHours(-6));
         }
 
@@ -74,7 +74,7 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
                 null,
                 null,
                 null,
-                "Ready for command center operations.",
+                "พร้อมใช้งานสำหรับงานศูนย์บัญชาการ",
                 now.AddMinutes(-5));
         }
 
@@ -97,57 +97,57 @@ public sealed class MockDeskStatusProvider : IDeskStatusProvider
     [
         new(
             "A01",
-            "Command Desk Team",
-            "Operations Control",
+            "ทีมโต๊ะบัญชาการ",
+            "ควบคุมปฏิบัติการ",
             now.AddMinutes(-45),
             now.AddHours(2),
-            "Incident monitoring",
-            "Priority store support watch.",
+            "ติดตามเหตุการณ์",
+            "เฝ้าระวังและสนับสนุนสาขาเร่งด่วน",
             now.AddMinutes(-12)),
         new(
             "A04",
-            "Operations Lead",
-            "Store Support",
+            "หัวหน้าปฏิบัติการ",
+            "สนับสนุนสาขา",
             now.AddMinutes(-15),
             now.AddHours(1.5),
-            "Store support watch",
-            "Escalation desk for shift coverage.",
+            "เฝ้าระวังงานสนับสนุนสาขา",
+            "โต๊ะรับเรื่องเร่งด่วนประจำกะ",
             now.AddMinutes(-8)),
         new(
             "A08",
-            "Network Team",
-            "Infrastructure",
+            "ทีมเครือข่าย",
+            "โครงสร้างพื้นฐาน",
             now.AddHours(-1),
             now.AddMinutes(90),
-            "Network health review",
-            "Monitoring WAN and store network signals.",
+            "ตรวจสุขภาพเครือข่าย",
+            "ติดตามสัญญาณ WAN และเครือข่ายสาขา",
             now.AddMinutes(-18)),
         new(
             "A10",
-            "Monitoring Analyst",
-            "Monitoring",
+            "นักวิเคราะห์ระบบเฝ้าระวัง",
+            "เฝ้าระวังระบบ",
             now.AddMinutes(-30),
             now.AddHours(3),
-            "Alert triage",
-            "High-volume alert queue coverage.",
+            "คัดกรองแจ้งเตือน",
+            "ดูแลคิวแจ้งเตือนปริมาณสูง",
             now.AddMinutes(-6)),
         new(
             "A11",
-            "Shift Supervisor",
-            "Command Center",
+            "หัวหน้ากะ",
+            "ศูนย์บัญชาการ",
             now.AddMinutes(-20),
             now.AddHours(2.5),
-            "Shift command",
-            "Supervisor desk assigned for current shift.",
+            "ควบคุมกะปฏิบัติงาน",
+            "โต๊ะหัวหน้ากะสำหรับรอบปัจจุบัน",
             now.AddMinutes(-4)),
         new(
             "A12",
-            "Business Continuity",
-            "Risk Management",
+            "ทีมความต่อเนื่องทางธุรกิจ",
+            "บริหารความเสี่ยง",
             now.AddHours(2),
             now.AddHours(4),
-            "Upcoming readiness review",
-            "Future booking, currently available.",
+            "ตรวจความพร้อมล่วงหน้า",
+            "เป็นรายการจองล่วงหน้า ขณะนี้ยังพร้อมใช้งาน",
             now.AddMinutes(-22))
     ];
 

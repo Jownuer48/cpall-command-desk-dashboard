@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import './styles.css';
 
-type DeskStatusValue = 'Available' | 'Booked' | 'Maintenance' | 'Reserved';
+type DeskStatusValue = 'Available' | 'Booked' | 'Maintenance';
 
 type DeskStatus = {
   seatId: string;
@@ -23,14 +23,31 @@ const statusOptions: StatusFilter[] = [
   'All',
   'Available',
   'Booked',
-  'Maintenance',
-  'Reserved'
+  'Maintenance'
 ];
 
 const apiBaseUrl =
   import.meta.env.DEV
     ? import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
     : '';
+
+const statusLabels: Record<DeskStatusValue, string> = {
+  Available: 'ว่าง',
+  Booked: 'กำลังใช้งาน',
+  Maintenance: 'ซ่อมบำรุง'
+};
+
+function displayStatus(status: DeskStatusValue) {
+  return statusLabels[status];
+}
+
+function displayStatusFilter(status: StatusFilter) {
+  return status === 'All' ? 'ทุกสถานะ' : displayStatus(status);
+}
+
+function displayZone(zone: string) {
+  return zone === 'Command Center' ? 'ศูนย์บัญชาการ' : zone;
+}
 
 function App() {
   const [desks, setDesks] = useState<DeskStatus[]>([]);
@@ -53,7 +70,7 @@ function App() {
         const response = await fetch(`${apiBaseUrl}/api/desk-status`);
 
         if (!response.ok) {
-          throw new Error(`Desk status request failed with ${response.status}`);
+          throw new Error(`โหลดสถานะโต๊ะไม่สำเร็จ (${response.status})`);
         }
 
         const data = (await response.json()) as DeskStatus[];
@@ -68,7 +85,7 @@ function App() {
           setError(
             requestError instanceof Error
               ? requestError.message
-              : 'Unable to load desk status'
+              : 'ไม่สามารถโหลดสถานะโต๊ะได้'
           );
         }
       } finally {
@@ -150,49 +167,49 @@ function App() {
     <main className="dashboard-shell">
       <section className="hero-band">
         <div>
-          <p className="eyebrow">Command desk status</p>
-          <h1>CPALL Command Center Desk Status</h1>
-          <p className="subtitle">Real-time computer desk booking status</p>
+          <p className="eyebrow">CPALL COMMAND CENTER</p>
+          <h1>สถานะโต๊ะคอมพิวเตอร์ CPALL COMMAND CENTER</h1>
+          <p className="subtitle">สถานะการจองโต๊ะคอมพิวเตอร์แบบเรียลไทม์</p>
         </div>
         <div className="sync-panel" aria-live="polite">
-          <span>Last synced</span>
-          <strong>{lastSynced ? formatDateTime(lastSynced) : 'Waiting for data'}</strong>
+          <span>ซิงก์ล่าสุด</span>
+          <strong>{lastSynced ? formatDateTime(lastSynced) : 'รอข้อมูล'}</strong>
         </div>
       </section>
 
       {error && (
         <section className="notice error" role="alert">
-          <strong>Status feed unavailable</strong>
+          <strong>ไม่สามารถโหลดข้อมูลสถานะได้</strong>
           <span>{error}</span>
         </section>
       )}
 
       {isLoading && desks.length === 0 ? (
         <section className="notice loading" aria-live="polite">
-          Loading desk status...
+          กำลังโหลดสถานะโต๊ะ...
         </section>
       ) : (
         <>
-          <section className="summary-grid" aria-label="Desk summary">
-            <MetricCard label="Total" value={counts.total} tone="total" />
-            <MetricCard label="Available" value={counts.available} tone="available" />
-            <MetricCard label="Booked" value={counts.booked} tone="booked" />
-            <MetricCard label="Maintenance" value={counts.maintenance} tone="maintenance" />
+          <section className="summary-grid" aria-label="สรุปสถานะโต๊ะ">
+            <MetricCard label="ทั้งหมด" value={counts.total} tone="total" />
+            <MetricCard label="ว่าง" value={counts.available} tone="available" />
+            <MetricCard label="กำลังใช้งาน" value={counts.booked} tone="booked" />
+            <MetricCard label="ซ่อมบำรุง" value={counts.maintenance} tone="maintenance" />
           </section>
 
-          <section className="toolbar" aria-label="Desk filters">
+          <section className="toolbar" aria-label="ตัวกรองโต๊ะ">
             <label className="search-field">
-              <span>Search</span>
+              <span>ค้นหา</span>
               <input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Seat, zone, computer, team"
+                placeholder="โต๊ะ, โซน, เครื่อง, ทีม"
                 type="search"
               />
             </label>
 
             <label className="filter-field">
-              <span>Status</span>
+              <span>สถานะ</span>
               <select
                 value={statusFilter}
                 onChange={(event) =>
@@ -201,19 +218,19 @@ function App() {
               >
                 {statusOptions.map((option) => (
                   <option key={option} value={option}>
-                    {option}
+                    {displayStatusFilter(option)}
                   </option>
                 ))}
               </select>
             </label>
           </section>
 
-          <section className="zones-section" aria-label="Desk grid grouped by zone">
+          <section className="zones-section" aria-label="แผนผังโต๊ะแยกตามโซน">
             {groupedDesks.map(({ zone, desks: zoneDesks }) => (
               <section className="zone-band" key={zone}>
                 <div className="zone-heading">
-                  <h2>{zone}</h2>
-                  <span>{zoneDesks.length} desks shown</span>
+                  <h2>{displayZone(zone)}</h2>
+                  <span>แสดง {zoneDesks.length} โต๊ะ</span>
                 </div>
                 {zoneDesks.length > 0 ? (
                   <div className="desk-grid">
@@ -222,34 +239,34 @@ function App() {
                     ))}
                   </div>
                 ) : (
-                  <p className="empty-zone">No desks match the current filters.</p>
+                  <p className="empty-zone">ไม่มีโต๊ะที่ตรงกับตัวกรองปัจจุบัน</p>
                 )}
               </section>
             ))}
           </section>
 
-          <section className="table-section" aria-label="Desk status table">
+          <section className="table-section" aria-label="ตารางสถานะโต๊ะ">
             <div className="section-heading">
-              <h2>Table View</h2>
-              <span>{filteredDesks.length} matching desks</span>
+              <h2>มุมมองตาราง</h2>
+              <span>พบ {filteredDesks.length} โต๊ะ</span>
             </div>
             <div className="table-wrap">
               <table>
                 <thead>
                   <tr>
-                    <th>Seat</th>
-                    <th>Zone</th>
-                    <th>Computer</th>
-                    <th>Status</th>
-                    <th>Current booking</th>
-                    <th>Window</th>
+                    <th>โต๊ะ</th>
+                    <th>โซน</th>
+                    <th>เครื่อง</th>
+                    <th>สถานะ</th>
+                    <th>ผู้จองปัจจุบัน</th>
+                    <th>ช่วงเวลา</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredDesks.map((desk) => (
                     <tr key={desk.seatId}>
                       <td>{desk.seatId}</td>
-                      <td>{desk.zone}</td>
+                      <td>{displayZone(desk.zone)}</td>
                       <td>{desk.computerName}</td>
                       <td>
                         <StatusPill status={desk.status} />
@@ -293,18 +310,18 @@ function DeskTile({ desk }: { desk: DeskStatus }) {
         <StatusPill status={desk.status} />
       </div>
       <span className="computer-name">{desk.computerName}</span>
-      <span className="booking-line">{desk.bookedBy ?? 'Open for use'}</span>
+      <span className="booking-line">{desk.bookedBy ?? 'พร้อมใช้งาน'}</span>
       <span className="time-line">{formatWindow(desk)}</span>
     </article>
   );
 }
 
 function StatusPill({ status }: { status: DeskStatusValue }) {
-  return <span className={`status-pill status-${status.toLowerCase()}`}>{status}</span>;
+  return <span className={`status-pill status-${status.toLowerCase()}`}>{displayStatus(status)}</span>;
 }
 
 function formatDateTime(value: Date) {
-  return new Intl.DateTimeFormat(undefined, {
+  return new Intl.DateTimeFormat('th-TH', {
     month: 'short',
     day: '2-digit',
     hour: '2-digit',
@@ -322,7 +339,7 @@ function formatWindow(desk: DeskStatus) {
 }
 
 function formatTime(value: string) {
-  return new Intl.DateTimeFormat(undefined, {
+  return new Intl.DateTimeFormat('th-TH', {
     hour: '2-digit',
     minute: '2-digit'
   }).format(new Date(value));

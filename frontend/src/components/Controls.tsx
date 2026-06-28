@@ -1,4 +1,5 @@
 import type { StatusFilter, ViewMode } from '../types';
+import { displayStatusFilter } from '../utils';
 
 type ControlsProps = {
   search: string;
@@ -13,8 +14,7 @@ const statusOptions: StatusFilter[] = [
   'All',
   'Available',
   'Booked',
-  'Maintenance',
-  'Reserved'
+  'Maintenance'
 ];
 
 export function Controls({
@@ -26,19 +26,19 @@ export function Controls({
   onViewModeChange
 }: ControlsProps) {
   return (
-    <section className="control-panel" aria-label="Dashboard controls">
+    <section className="control-panel" aria-label="ตัวควบคุมแดชบอร์ด">
       <label className="search-field">
-        <span>Search</span>
+        <span>ค้นหา</span>
         <input
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
-          placeholder="Seat, zone, computer, team"
+          placeholder="โต๊ะ, โซน, เครื่อง, ทีม"
           type="search"
         />
       </label>
 
       <label className="filter-field">
-        <span>Status</span>
+        <span>สถานะ</span>
         <select
           value={statusFilter}
           onChange={(event) =>
@@ -47,14 +47,14 @@ export function Controls({
         >
           {statusOptions.map((option) => (
             <option key={option} value={option}>
-              {option}
+              {displayStatusFilter(option)}
             </option>
           ))}
         </select>
       </label>
 
-      <div className="view-toggle" aria-label="View toggle">
-        <span>View</span>
+      <div className="view-toggle" aria-label="สลับมุมมอง">
+        <span>มุมมอง</span>
         <div className="segmented-control">
           <button
             className={viewMode === 'layout' ? 'active' : ''}
@@ -62,7 +62,7 @@ export function Controls({
             aria-pressed={viewMode === 'layout'}
             onClick={() => onViewModeChange('layout')}
           >
-            Layout View
+            แผนผัง
           </button>
           <button
             className={viewMode === 'table' ? 'active' : ''}
@@ -70,7 +70,7 @@ export function Controls({
             aria-pressed={viewMode === 'table'}
             onClick={() => onViewModeChange('table')}
           >
-            Table View
+            ตาราง
           </button>
         </div>
       </div>
