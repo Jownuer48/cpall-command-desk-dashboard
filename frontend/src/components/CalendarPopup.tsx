@@ -3,6 +3,8 @@ import { DeskStatusDto } from '../types';
 
 interface CalendarPopupProps {
   desks: DeskStatusDto[];
+  selectedDate: Date;
+  onSelectDate: (date: Date) => void;
   onClose: () => void;
 }
 
@@ -48,9 +50,10 @@ function formatSelectedDate(date: Date) {
   });
 }
 
-const CalendarPopup: React.FC<CalendarPopupProps> = ({ desks, onClose }) => {
-  const [calendarMonth, setCalendarMonth] = useState(() => new Date());
-  const [selectedDate, setSelectedDate] = useState(() => new Date());
+const CalendarPopup: React.FC<CalendarPopupProps> = ({ desks, selectedDate, onSelectDate, onClose }) => {
+  const [calendarMonth, setCalendarMonth] = useState(
+    () => new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
+  );
 
   const total = desks.length;
   const booked = desks.filter((desk) => desk.status === 'Booked').length;
@@ -63,7 +66,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = ({ desks, onClose }) => {
   };
 
   const selectDate = (date: Date) => {
-    setSelectedDate(date);
+    onSelectDate(date);
     setCalendarMonth(new Date(date.getFullYear(), date.getMonth(), 1));
   };
 

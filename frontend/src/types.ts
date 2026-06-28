@@ -18,6 +18,12 @@ export interface DeskStatusDto {
   updatedAt?: string | null;
 }
 
+export interface DepartmentUsageDto {
+  department: string;
+  count: number;
+  lastUsedAt?: string | null;
+}
+
 export type DeskStatus = {
   seatId: string;
   zone: string;

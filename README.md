@@ -12,8 +12,45 @@ Read-only dashboard for displaying computer desk booking status.
 
 - `GET /api/health`
 - `GET /api/desk-status`
+- `GET /api/department-usage-ranking`
 
 The mock provider includes 12 seats, `A01` through `A12`, in one Command Center layout.
+
+## SharePoint data source
+
+The backend can read bookings from the SharePoint list below through Microsoft Graph:
+
+```text
+https://cpallgroup.sharepoint.com/sites/MST-CCTV-Booking-System/Lists/CCTVBookings_DB_tblBooks/AllItems.aspx
+```
+
+Create `backend/appsettings.Development.local.json` and keep the real secret there:
+
+Use `backend/appsettings.Development.local.json.example` as the starting point.
+
+```json
+{
+  "SharePoint": {
+    "Enabled": true,
+    "TenantId": "YOUR_TENANT_ID",
+    "ClientId": "YOUR_APP_CLIENT_ID",
+    "ClientSecret": "YOUR_APP_CLIENT_SECRET",
+    "SeatIdField": "SeatId",
+    "BookedByField": "BookedBy",
+    "DepartmentField": "Department",
+    "StartTimeField": "StartTime",
+    "EndTimeField": "EndTime",
+    "PurposeField": "Purpose",
+    "NoteField": "Note"
+  }
+}
+```
+
+The Azure app registration needs Microsoft Graph application permission that can read the SharePoint list, such as `Sites.Read.All`, with admin consent. If the list uses different internal column names, update the field names in the local settings file.
+
+When the SharePoint settings are present, the backend automatically uses the SharePoint provider; otherwise it falls back to mock data.
+
+The dashboard calls the backend every 30 seconds. The SharePoint provider also caches list data for 30 seconds before reading SharePoint again.
 
 ## UI Theme
 
@@ -42,7 +79,9 @@ npm install
 npm run dev
 ```
 
-For frontend development, set `VITE_API_BASE_URL` to the backend URL. See `frontend/.env.example`.
+The frontend dev server proxies `/api` requests to `http://localhost:5000`, so it can run without any extra env file as long as the backend is running.
+
+If you prefer to point the frontend directly at a backend URL, see `frontend/.env.example`.
 
 ## LAN production mode
 

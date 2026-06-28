@@ -1,0 +1,28 @@
+{
+  "SharePoint": {
+    "Enabled": true,
+    "SiteUrl": "https://cpallgroup.sharepoint.com/sites/MST-CCTV-Booking-System",
+    "ListTitle": "CCTVBookings_DB_tblBooks",
+    "TenantId": "YOUR_TENANT_ID",
+    "ClientId": "YOUR_APP_CLIENT_ID",
+    "ClientSecret": "YOUR_APP_CLIENT_SECRET",
+    "SeatIdField": "SeatID",
+    "BookingIdField": "BookingID",
+    "BookingDateField": "BookingDate",
+    "PeriodField": "Period",
+    "FullNameField": "FullName",
+    "PhoneField": "Phone",
+    "BookedByField": "FullName",
+    "DepartmentField": "Department",
+    "StartTimeField": "TimeBegin",
+    "EndTimeField": "TimeEnd",
+    "PurposeField": "Objective",
+    "NoteField": "Remark",
+    "StatusField": "Status",
+    "UpdatedAtField": "Modified",
+    "RefreshSeconds": 30,
+    "UsageRankingDays": 30,
+    "PageSize": 5000,
+    "MaxPages": 10
+  }
+}
