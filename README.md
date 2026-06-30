@@ -62,6 +62,16 @@ Logo path:
 frontend/public/cpalllogo.png
 ```
 
+## One-click Windows start
+
+From the project root, double-click:
+
+- `start.bat` for production/LAN mode. It builds the frontend, copies the React build into `backend/wwwroot`, publishes the backend, starts only the backend, and opens `http://localhost:5000`.
+- `start-dev.bat` for development mode. It opens separate backend and frontend command windows, then opens `http://localhost:5173`.
+- `stop-dashboard.bat` if ports are stuck. It looks for processes listening on port `5000` or `5173`, shows what it found, and asks before stopping them.
+
+Production mode uses the ASP.NET Core backend only. The Vite dev server is not required because the backend serves the built React files from `backend/wwwroot`.
+
 ## Development mode
 
 Run the backend API at `http://localhost:5000`:
